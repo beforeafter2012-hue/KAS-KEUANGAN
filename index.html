@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="KasKita" />
+  <title>KasKita - Bagi Hasil</title>
+  <style>
+    :root{
+      --bg:#f6f8fc;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;
+      --blue:#2563eb;--blue2:#1d4ed8;--blueSoft:#eaf1ff;
+      --green:#16a34a;--greenSoft:#eafaf0;--red:#dc2626;--redSoft:#fff1f2;
+      --purple:#7c3aed;--purpleSoft:#f3edff;--amber:#f59e0b;--amberSoft:#fff7df;
+      --shadow:0 14px 34px rgba(15,23,42,.08);--radius:22px;--safe:env(safe-area-inset-bottom,0px)
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+    body{
+      margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
+      background:radial-gradient(circle at 0 0,rgba(37,99,235,.13),transparent 34%),linear-gradient(135deg,#f8fbff,var(--bg) 58%,#fff);
+      padding-bottom:calc(78px + var(--safe))
+    }
+    button,input,select,textarea{font:inherit;font-size:16px}
+    button{border:0;cursor:pointer;touch-action:manipulation}
+    input,select,textarea{outline:none}
+    .app{width:min(100%,1320px);margin:0 auto}
+    .topbar{position:sticky;top:0;z-index:30;min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px clamp(14px,3vw,28px);background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    .brand{display:flex;align-items:center;gap:11px;min-width:0}
+    .logo{width:39px;height:39px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:950;background:linear-gradient(135deg,#3b82f6,#1d4ed8);box-shadow:0 10px 24px rgba(37,99,235,.22);flex:0 0 auto}
+    .brand-title{min-width:0;line-height:1.1}.brand-title strong{display:block;font-size:21px;font-weight:950;letter-spacing:-.04em;white-space:nowrap}.brand-title span{display:block;color:var(--muted);font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .status{padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;color:#475569;font-size:12px;font-weight:900;white-space:nowrap}
+    .container{padding:clamp(14px,3vw,28px)}
+    h1{margin:0;font-size:clamp(30px,5vw,44px);line-height:1;letter-spacing:-.065em}.subtitle{margin:7px 0 18px;color:var(--muted);font-weight:800;font-size:15px}
+    .titlebar{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+    .period-box{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+    .period-box label{font-size:12px;color:var(--muted);font-weight:900;padding-left:6px}
+    .period-box input{min-height:42px;border-radius:13px}
+    .layout{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(360px,.82fr);gap:clamp(16px,2.3vw,24px);align-items:start}.stack{display:grid;gap:16px}
+    .hero{color:#fff;border-radius:30px;padding:clamp(20px,3vw,28px);background:radial-gradient(circle at 92% 8%,rgba(255,255,255,.28),transparent 25%),linear-gradient(135deg,#2563eb,#1d4ed8 64%,#1e40af);box-shadow:0 22px 48px rgba(37,99,235,.24);overflow:hidden}
+    .hero-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.hero-head h2{margin:0;font-size:18px;letter-spacing:-.02em}.device-pill{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.16);font-size:12px;font-weight:900;white-space:nowrap}
+    .hero-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.hero-stat{min-width:0;padding:12px;border-radius:18px;background:rgba(255,255,255,.12)}.hero-stat small{display:block;opacity:.82;font-size:12px;font-weight:850;margin-bottom:8px}.hero-stat strong{display:block;font-size:clamp(18px,2.3vw,25px);line-height:1;letter-spacing:-.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(15px,2.5vw,20px);box-shadow:var(--shadow)}.card h2{margin:0 0 14px;font-size:20px;letter-spacing:-.035em}
+    .info{display:grid;grid-template-columns:48px 1fr;gap:13px;align-items:center;background:linear-gradient(135deg,var(--amberSoft),#fffdf6);border-color:#fdecc8}.info-icon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#fff3c4;color:#b45309;font-size:22px}.info h3{margin:0 0 5px;font-size:16px}.info p{margin:0;color:#40506a;line-height:1.45;font-size:14px;font-weight:700}
+    .summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.summary-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .mini{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff;min-width:0}.mini.blue{background:linear-gradient(135deg,var(--blueSoft),#fff)}.mini.green{background:linear-gradient(135deg,var(--greenSoft),#fff)}.mini.red{background:linear-gradient(135deg,var(--redSoft),#fff)}.mini.purple{background:linear-gradient(135deg,var(--purpleSoft),#fff)}.mini.amber{background:linear-gradient(135deg,var(--amberSoft),#fff)}
+    .mini-label{color:#334155;font-size:13px;font-weight:900;margin-bottom:7px}.mini-value{font-size:clamp(17px,2vw,20px);font-weight:950;letter-spacing:-.035em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .green{color:var(--green)}.red{color:var(--red)}.purple{color:var(--purple)}.blue{color:var(--blue)}.amber{color:#b45309}
+    .actions-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.quick-action{min-height:112px;border-radius:18px;background:#fff;border:1px solid var(--line);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;padding:12px 8px;font-weight:950;box-shadow:0 10px 24px rgba(15,23,42,.06)}.quick-icon{width:50px;height:50px;border-radius:18px;display:grid;place-items:center;color:#fff;font-size:22px;font-weight:950}.quick-icon.green{background:linear-gradient(135deg,#22c55e,#16a34a)}.quick-icon.red{background:linear-gradient(135deg,#fb7185,#dc2626)}.quick-icon.purple{background:linear-gradient(135deg,#a78bfa,#7c3aed)}.quick-icon.blue{background:linear-gradient(135deg,#60a5fa,#2563eb)}
+    .form{display:grid;gap:12px}.form-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    label{display:grid;gap:6px;color:#334155;font-size:13px;font-weight:950}input,select,textarea{width:100%;min-height:50px;border:1px solid var(--line);border-radius:16px;padding:13px 14px;color:var(--ink);background:#fff}textarea{min-height:96px;resize:vertical;line-height:1.45}input:focus,select:focus,textarea:focus{border-color:rgba(37,99,235,.7);box-shadow:0 0 0 4px rgba(37,99,235,.1)}
+    .btn,.btn-soft,.btn-danger{min-height:50px;border-radius:16px;padding:13px 14px;font-weight:950}.btn{color:#fff;background:linear-gradient(135deg,#3b82f6,#2563eb);box-shadow:0 12px 24px rgba(37,99,235,.2)}.btn-soft{color:var(--ink);background:#f8fafc;border:1px solid var(--line)}.btn-danger{color:#991b1b;background:var(--redSoft);border:1px solid #fecaca}.button-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:12px}.tab{min-height:44px;border-radius:15px;color:#64748b;background:#f8fafc;border:1px solid var(--line);font-size:13px;font-weight:950;padding:8px}.tab.active{color:var(--blue);background:var(--blueSoft);border-color:#bfdbfe}
+    .tool-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}.small-btn{min-height:44px;border-radius:14px;padding:10px;color:var(--ink);background:#f8fafc;border:1px solid var(--line);font-size:12px;font-weight:950}
+    .transaction-list,.closing-list{display:grid;gap:10px;margin-top:12px;max-height:620px;overflow:auto;-webkit-overflow-scrolling:touch;padding-right:2px}.tx{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:11px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:13px;background:#fff;box-shadow:0 6px 18px rgba(15,23,42,.04)}.tx-icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:950;font-size:20px;background:#f1f5f9}.tx-main{min-width:0}.tx-main strong{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx-main span{display:block;margin-top:4px;color:var(--muted);font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.amount{font-weight:950;white-space:nowrap;letter-spacing:-.02em}.row-actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}.edit-btn,.delete-btn{min-height:42px;border-radius:14px;font-weight:950;border:1px solid var(--line);background:#f8fafc;color:var(--ink)}.delete-btn{background:#fff1f2;border-color:#fecaca;color:#991b1b}
+    .closing-item{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff;display:grid;gap:10px}.closing-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.closing-head strong{font-size:16px}.closing-head span{font-size:12px;font-weight:900;color:#64748b;background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:7px 9px}.closing-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .empty{padding:24px;border:1px dashed #cbd5e1;border-radius:18px;background:#f8fafc;color:var(--muted);font-weight:850;text-align:center}
+    .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.48);padding:14px}.modal.show{display:flex}.sheet{width:min(660px,100%);max-height:min(92vh,880px);overflow:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:26px;padding:20px;box-shadow:0 30px 70px rgba(15,23,42,.26)}.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.sheet-head h2{margin:0;font-size:23px;letter-spacing:-.04em}.close{width:42px;height:42px;border-radius:14px;color:var(--ink);background:#f8fafc;border:1px solid var(--line);font-size:24px}
+    .helper{margin:0 0 12px;color:var(--muted);line-height:1.5;font-size:14px;font-weight:750}.backup-box{width:100%;min-height:230px;border:1px solid var(--line);border-radius:16px;padding:13px;background:#f8fafc;color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;line-height:1.45;resize:vertical}.tip{margin-top:12px;padding:13px 14px;border-radius:16px;background:var(--blueSoft);color:#1e3a8a;font-size:13px;font-weight:850;line-height:1.45}
+    .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 12px calc(10px + var(--safe));background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(12px)}.nav-btn{min-height:46px;border-radius:15px;color:#475569;background:#f8fafc;border:1px solid var(--line);font-size:12px;font-weight:950}
+    @media(max-width:1100px){.layout{grid-template-columns:1fr}.hero-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.transaction-list,.closing-list{max-height:none}.summary-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){body{padding-bottom:calc(74px + var(--safe))}.container{padding:14px}.brand-title span{max-width:150px}.hero{border-radius:26px}.summary-grid,.summary-grid.two,.summary-grid.four,.actions-grid,.form-two,.form-three{grid-template-columns:1fr}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.tx{grid-template-columns:46px minmax(0,1fr)}.amount{grid-column:2}.bottom-nav{display:grid}.modal{align-items:flex-end;padding:10px}.sheet{border-radius:26px 26px 18px 18px;max-height:90vh;padding-bottom:calc(18px + var(--safe))}.period-box{width:100%;display:grid}.period-box input{width:100%}}
+    @media(max-width:420px){.topbar{padding-left:12px;padding-right:12px}.brand-title strong{font-size:19px}.status{max-width:124px;overflow:hidden;text-overflow:ellipsis}.hero-grid{grid-template-columns:1fr}.button-row,.closing-actions{grid-template-columns:1fr}}
+    @media(min-width:1101px){body{padding-bottom:0}.bottom-nav{display:none}.row-actions{grid-column:auto;grid-template-columns:1fr 1fr;min-width:116px}.edit-btn,.delete-btn{min-height:36px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><div class="logo">▣</div><div class="brand-title"><strong>KasKita</strong><span>Fitgo and Coffee</span></div></div>
+      <div class="status" id="status">Tersimpan lokal</div>
+    </header>
+
+    <main class="container">
+      <div class="titlebar">
+        <div><h1>Dashboard</h1><p class="subtitle">Pencatatan kas, revisi input, tutup bulan, saving modal, dan bagi hasil</p></div>
+        <div class="period-box"><label>Periode Aktif</label><input id="periodInput" type="month" /></div>
+      </div>
+
+      <section class="layout">
+        <div class="stack">
+          <section class="hero">
+            <div class="hero-head"><h2>Ringkasan Periode</h2><span class="device-pill">Owner + Pengelola</span></div>
+            <div class="hero-grid">
+              <div class="hero-stat"><small>Total Pemasukan</small><strong id="heroIncome">Rp 0</strong></div>
+              <div class="hero-stat"><small>Total Biaya</small><strong id="heroCost">Rp 0</strong></div>
+              <div class="hero-stat"><small>Laba Bersih</small><strong id="heroProfit">Rp 0</strong></div>
+              <div class="hero-stat"><small>Saldo Kas Akhir</small><strong id="heroEndingCash">Rp 0</strong></div>
+            </div>
+          </section>
+
+          <section class="card info">
+            <div class="info-icon">💡</div>
+            <div><h3>Tutup bulan sebelum bagi hasil</h3><p>Laba yang dibagi adalah laba bersih setelah pengeluaran kas awal, pengeluaran operasional, dan saving modal bulan berikutnya.</p></div>
+          </section>
+
+          <section class="card">
+            <h2>Ringkasan Kas</h2>
+            <div class="summary-grid four">
+              <div class="mini purple"><div class="mini-label">Modal Awal Periode</div><div class="mini-value purple" id="sumCapital">Rp 0</div></div>
+              <div class="mini purple"><div class="mini-label">Pengeluaran Kas Awal</div><div class="mini-value purple" id="sumInitialExpense">Rp 0</div></div>
+              <div class="mini red"><div class="mini-label">Pengeluaran Operasional</div><div class="mini-value red" id="sumOperationalExpense">Rp 0</div></div>
+              <div class="mini green"><div class="mini-label">Sisa Kas Awal</div><div class="mini-value green" id="sumRemainingCapital">Rp 0</div></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Estimasi Bagi Hasil</h2>
+            <div class="summary-grid four">
+              <div class="mini amber"><div class="mini-label">Saving Modal Berikutnya</div><div class="mini-value amber" id="sumSaving">Rp 0</div></div>
+              <div class="mini blue"><div class="mini-label">Laba Dibagikan</div><div class="mini-value blue" id="sumShareable">Rp 0</div></div>
+              <div class="mini green"><div class="mini-label">Bagian Owner</div><div class="mini-value green" id="sumOwner">Rp 0</div></div>
+              <div class="mini purple"><div class="mini-label">Bagian Pengelola</div><div class="mini-value purple" id="sumManager">Rp 0</div></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Menu Cepat</h2>
+            <div class="actions-grid">
+              <button class="quick-action" onclick="openTransaction('income')"><span class="quick-icon green">↓</span><span>Tambah<br>Pemasukan</span></button>
+              <button class="quick-action" onclick="openTransaction('expense')"><span class="quick-icon red">↑</span><span>Tambah<br>Pengeluaran</span></button>
+              <button class="quick-action" onclick="openTransaction('initial-expense')"><span class="quick-icon purple">↗</span><span>Pengeluaran<br>Kas Awal</span></button>
+              <button class="quick-action" onclick="document.getElementById('closingSection').scrollIntoView({behavior:'smooth'})"><span class="quick-icon blue">✓</span><span>Tutup<br>Bulan</span></button>
+            </div>
+          </section>
+
+          <section class="card" id="closingSection">
+            <h2>Tutup Bulan & Bagi Hasil</h2>
+            <div class="summary-grid four">
+              <div class="mini green"><div class="mini-label">Laba Bersih</div><div class="mini-value green" id="closeProfit">Rp 0</div></div>
+              <div class="mini amber"><div class="mini-label">Saving Modal</div><div class="mini-value amber" id="closeSaving">Rp 0</div></div>
+              <div class="mini green"><div class="mini-label">Owner</div><div class="mini-value green" id="closeOwner">Rp 0</div></div>
+              <div class="mini purple"><div class="mini-label">Pengelola</div><div class="mini-value purple" id="closeManager">Rp 0</div></div>
+            </div>
+            <div class="button-row" style="margin-top:12px">
+              <button class="btn" onclick="saveClosing()">Simpan Tutup Bulan</button>
+              <button class="btn-soft" onclick="openSettings()">Atur Persentase</button>
+            </div>
+            <div class="tip">Jika transaksi periode ini direvisi setelah tutup bulan, tekan lagi “Simpan Tutup Bulan” untuk memperbarui arsip laporan.</div>
+          </section>
+
+          <section class="card">
+            <h2>Riwayat Tutup Bulan</h2>
+            <div class="closing-list" id="closingList"></div>
+          </section>
+        </div>
+
+        <aside class="stack" id="transactionSection">
+          <section class="card">
+            <h2>Modal Awal Periode</h2>
+            <form class="form" id="capitalForm">
+              <div class="form-two">
+                <label>Modal Awal <input id="capitalAmount" type="number" inputmode="numeric" min="0" placeholder="2000000"></label>
+                <label>Tanggal Modal <input id="capitalDate" type="date"></label>
+              </div>
+              <label>Catatan <textarea id="capitalNote" placeholder="Contoh: Modal awal Mei"></textarea></label>
+              <button class="btn" type="submit">Simpan Modal Periode</button>
+            </form>
+          </section>
+
+          <section class="card">
+            <h2>Pengaturan Bagi Hasil</h2>
+            <form class="form" id="settingsForm">
+              <div class="form-two">
+                <label>Owner (%) <input id="ownerPercent" type="number" inputmode="decimal" min="0" max="100"></label>
+                <label>Pengelola (%) <input id="managerPercent" type="number" inputmode="decimal" min="0" max="100"></label>
+              </div>
+              <div class="form-two">
+                <label>Saving Modal (%) dari laba <input id="savingPercent" type="number" inputmode="decimal" min="0" max="100"></label>
+                <label>Saving Minimal Tetap <input id="savingFixed" type="number" inputmode="numeric" min="0" placeholder="0"></label>
+              </div>
+              <button class="btn" type="submit">Simpan Pengaturan</button>
+            </form>
+            <div class="tip">Saving modal menggunakan nilai yang lebih besar antara persentase laba dan saving minimal tetap, tetapi tidak melebihi laba bersih.</div>
+          </section>
+
+          <section class="card">
+            <h2>Daftar Transaksi</h2>
+            <div class="tabs">
+              <button class="tab active" data-filter="all">Semua</button>
+              <button class="tab" data-filter="income">Masuk</button>
+              <button class="tab" data-filter="expense">Keluar</button>
+              <button class="tab" data-filter="initial-expense">Kas Awal</button>
+            </div>
+            <div class="tool-grid">
+              <button class="small-btn" onclick="openDataModal('backup')">Backup</button>
+              <button class="small-btn" onclick="openDataModal('import')">Impor</button>
+              <button class="small-btn" onclick="showCSV()">CSV</button>
+              <button class="small-btn" onclick="resetSeed()">Reset</button>
+            </div>
+            <div class="transaction-list" id="transactionList"></div>
+            <button class="btn" style="margin-top:12px;width:100%" onclick="openTransaction()">＋ Tambah Transaksi</button>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">Dashboard</button>
+      <button class="nav-btn" onclick="document.getElementById('transactionSection').scrollIntoView({behavior:'smooth'})">Transaksi</button>
+      <button class="nav-btn" onclick="openTransaction()">Tambah</button>
+      <button class="nav-btn" onclick="document.getElementById('closingSection').scrollIntoView({behavior:'smooth'})">Tutup</button>
+    </nav>
+  </div>
+
+  <div class="modal" id="transactionModal">
+    <div class="sheet">
+      <div class="sheet-head"><h2 id="transactionTitle">Tambah Transaksi</h2><button class="close" onclick="closeTransaction()">×</button></div>
+      <form class="form" id="transactionForm">
+        <input type="hidden" id="editId">
+        <div class="form-two">
+          <label>Jenis <select id="txType"><option value="income">Pemasukan</option><option value="expense">Pengeluaran Operasional</option><option value="initial-expense">Pengeluaran Kas Awal</option></select></label>
+          <label>Tanggal <input id="txDate" type="date" required></label>
+        </div>
+        <div class="form-two">
+          <label>Kategori <input id="txCategory" type="text" placeholder="Contoh: Es batu" required></label>
+          <label>Jumlah <input id="txAmount" type="number" inputmode="numeric" min="1" placeholder="7000" required></label>
+        </div>
+        <label>Keterangan <textarea id="txNote" placeholder="Opsional"></textarea></label>
+        <div class="button-row">
+          <button class="btn-soft" type="button" onclick="closeTransaction()">Batal</button>
+          <button class="btn" type="submit" id="saveTxButton">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="settingsModal">
+    <div class="sheet">
+      <div class="sheet-head"><h2>Pengaturan Bagi Hasil</h2><button class="close" onclick="closeSettings()">×</button></div>
+      <p class="helper">Atur persentase owner, pengelola, dan saving modal. Total owner + pengelola harus 100%.</p>
+      <form class="form" id="settingsModalForm">
+        <div class="form-two">
+          <label>Owner (%) <input id="ownerPercentModal" type="number" inputmode="decimal" min="0" max="100"></label>
+          <label>Pengelola (%) <input id="managerPercentModal" type="number" inputmode="decimal" min="0" max="100"></label>
+        </div>
+        <div class="form-two">
+          <label>Saving Modal (%) <input id="savingPercentModal" type="number" inputmode="decimal" min="0" max="100"></label>
+          <label>Saving Minimal Tetap <input id="savingFixedModal" type="number" inputmode="numeric" min="0"></label>
+        </div>
+        <button class="btn" type="submit">Simpan Pengaturan</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="dataModal">
+    <div class="sheet">
+      <div class="sheet-head"><h2 id="dataTitle">Backup</h2><button class="close" onclick="closeDataModal()">×</button></div>
+      <div id="backupPanel">
+        <p class="helper">Backup memakai JSON biasa agar mudah dipakai di iPhone, Android, tablet, dan desktop.</p>
+        <textarea class="backup-box" id="backupText" readonly></textarea>
+        <div class="button-row">
+          <button class="btn" type="button" onclick="selectBackup()">Pilih Semua</button>
+          <button class="btn-soft" type="button" onclick="copyBackup()">Salin</button>
+          <button class="btn-soft" type="button" onclick="shareBackup()">Bagikan</button>
+          <button class="btn-soft" type="button" onclick="downloadBackup()">Unduh TXT</button>
+        </div>
+      </div>
+      <div id="importPanel" style="display:none">
+        <p class="helper">Tempel backup JSON di bawah. Aplikasi bisa membaca JSON murni atau teks WhatsApp/Notes yang berisi JSON.</p>
+        <textarea class="backup-box" id="importText" placeholder="Tempel backup JSON di sini. Diawali { dan diakhiri }"></textarea>
+        <div class="button-row">
+          <button class="btn" type="button" onclick="importFromText()">Impor dari Teks</button>
+          <button class="btn-soft" type="button" onclick="pasteImport()">Tempel Otomatis</button>
+        </div>
+        <label style="margin-top:12px">Atau pilih file TXT/JSON <input id="importFile" type="file" accept=".txt,.json,text/plain,application/json"></label>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const KEY = "kaskita_owner_pengelola_v1";
+    const SEED = {
+      settings:{ ownerPercent:60, managerPercent:40, savingPercent:20, savingFixed:0 },
+      capitals:{ "2026-05":{ amount:2000000, date:"2026-05-12", note:"Kas awal Fitgo and Coffee" } },
+      transactions:[
+        ["2026-05-12","Kopi beans Arabika 500 gram",155000],["2026-05-12","Blend beans 30:70",165000],["2026-05-12","Es batu",11000],["2026-05-12","Listrik",100000],
+        ["2026-05-13","Sprite 2 botol kecil dan 1 botol sedang",12000],["2026-05-14","Air Cleo 1 Galon",32000],["2026-05-14","Es batu",7000],
+        ["2026-05-14","Air Mineral 1 Dos isi 24 Pack",42000],["2026-05-14","Susu UHT satu karton",280000],["2026-05-14","Biaya admin",2500],["2026-05-14","SKM Carnation 2 KG",56000],
+        ["2026-05-15","Cup 1 Pack isi 25",37000],["2026-05-15","Es batu",7000],["2026-05-15","Uang bensin",15000],["2026-05-15","Air 4 galon",20000],
+        ["2026-05-15","Davinci Europen Strawberry 750 Ml",156500],["2026-05-15","Max Creamer 500 gram",46000],["2026-05-15","Es batu",7000],
+        ["2026-05-16","Es batu",7000],["2026-05-18","Es batu",7000],["2026-05-19","Es batu",7000],["2026-05-19","Galon",32000],["2026-05-19","Lemon",30000],["2026-05-21","Listrik",100000]
+      ].map((x,i)=>({id:"seed-"+i,type:"initial-expense",date:x[0],category:x[1],amount:x[2],note:"Rekap Fitgo and Coffee"})),
+      closings:[]
+    };
+
+    let state = { settings:{ownerPercent:60, managerPercent:40, savingPercent:20, savingFixed:0}, capitals:{}, transactions:[], closings:[] };
+    let selectedPeriod = "2026-05";
+    let activeFilter = "all";
+    const $ = id => document.getElementById(id);
+
+    function clone(o){ return JSON.parse(JSON.stringify(o)); }
+    function today(){ return new Date().toISOString().slice(0,10); }
+    function periodNow(){ return new Date().toISOString().slice(0,7); }
+    function periodOf(date){ return String(date||"").slice(0,7); }
+    function periodLabel(p){ if(!p) return "-"; return new Date(p+"-01T00:00:00").toLocaleDateString("id-ID",{month:"long",year:"numeric"}); }
+    function nextPeriod(p){ const d=new Date(p+"-01T00:00:00"); d.setMonth(d.getMonth()+1); return d.toISOString().slice(0,7); }
+    function money(n){ return new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0); }
+    function dateID(v){ if(!v) return "-"; return new Date(v+"T00:00:00").toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"}); }
+    function esc(s){ return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
+    function setStatus(msg){ $("status").textContent=msg; clearTimeout(setStatus.t); setStatus.t=setTimeout(()=>$("status").textContent="Tersimpan lokal",1800); }
+    function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); $("status").textContent="Tersimpan lokal"; }catch(e){ $("status").textContent="Mode sementara"; } }
+    function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s && Array.isArray(s.transactions) && s.capitals){ state=s; if(!state.settings) state.settings=clone(SEED.settings); if(!state.closings) state.closings=[]; return; } }catch(e){} state=clone(SEED); save(); }
+
+    function capital(period=selectedPeriod){ return state.capitals[period] || {amount:0,date:period+"-01",note:""}; }
+    function periodTransactions(period=selectedPeriod){ return state.transactions.filter(t=>periodOf(t.date)===period); }
+    function calcPeriod(period=selectedPeriod, txList=periodTransactions(period)){
+      const cap=capital(period);
+      const income=txList.filter(t=>t.type==="income").reduce((a,t)=>a+Number(t.amount||0),0);
+      const operationalExpense=txList.filter(t=>t.type==="expense").reduce((a,t)=>a+Number(t.amount||0),0);
+      const initialExpense=txList.filter(t=>t.type==="initial-expense").reduce((a,t)=>a+Number(t.amount||0),0);
+      const totalCost=operationalExpense+initialExpense;
+      const profit=income-totalCost;
+      const remainingCapital=Number(cap.amount||0)-initialExpense;
+      const endingCash=Number(cap.amount||0)+income-totalCost;
+      const positiveProfit=Math.max(profit,0);
+      const savingFromPercent=positiveProfit*(Number(state.settings.savingPercent)||0)/100;
+      const saving=Math.min(positiveProfit, Math.max(savingFromPercent, Number(state.settings.savingFixed)||0));
+      const shareable=Math.max(positiveProfit-saving,0);
+      const ownerShare=shareable*(Number(state.settings.ownerPercent)||0)/100;
+      const managerShare=shareable*(Number(state.settings.managerPercent)||0)/100;
+      return {capital:Number(cap.amount||0), income, operationalExpense, initialExpense, totalCost, profit, remainingCapital, endingCash, saving, shareable, ownerShare, managerShare};
+    }
+    function calcPeriodExcluding(id, period=selectedPeriod){ return calcPeriod(period, periodTransactions(period).filter(t=>t.id!==id)); }
+    function meta(type){ if(type==="income") return {label:"Pemasukan",sign:"+",cls:"green",icon:"↓"}; if(type==="expense") return {label:"Pengeluaran Operasional",sign:"-",cls:"red",icon:"↑"}; return {label:"Pengeluaran Kas Awal",sign:"-",cls:"purple",icon:"↗"}; }
+
+    function render(){
+      $("periodInput").value=selectedPeriod;
+      const c=capital(); const t=calcPeriod();
+      $("heroIncome").textContent=money(t.income); $("heroCost").textContent=money(t.totalCost); $("heroProfit").textContent=money(t.profit); $("heroEndingCash").textContent=money(t.endingCash);
+      $("sumCapital").textContent=money(t.capital); $("sumInitialExpense").textContent=money(t.initialExpense); $("sumOperationalExpense").textContent=money(t.operationalExpense); $("sumRemainingCapital").textContent=money(t.remainingCapital);
+      $("sumSaving").textContent=money(t.saving); $("sumShareable").textContent=money(t.shareable); $("sumOwner").textContent=money(t.ownerShare); $("sumManager").textContent=money(t.managerShare);
+      $("closeProfit").textContent=money(t.profit); $("closeSaving").textContent=money(t.saving); $("closeOwner").textContent=money(t.ownerShare); $("closeManager").textContent=money(t.managerShare);
+      $("capitalAmount").value=c.amount||""; $("capitalDate").value=c.date || selectedPeriod+"-01"; $("capitalNote").value=c.note||"";
+      $("ownerPercent").value=state.settings.ownerPercent; $("managerPercent").value=state.settings.managerPercent; $("savingPercent").value=state.settings.savingPercent; $("savingFixed").value=state.settings.savingFixed||"";
+      renderTransactions(); renderClosings();
+    }
+
+    function renderTransactions(){
+      document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.filter===activeFilter));
+      const rows=periodTransactions().filter(x=>activeFilter==="all"||x.type===activeFilter).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+      $("transactionList").innerHTML=rows.length?rows.map(x=>{ const m=meta(x.type); return `<div class="tx"><div class="tx-icon ${m.cls}">${m.icon}</div><div class="tx-main"><strong>${esc(x.category)}</strong><span>${dateID(x.date)} • ${m.label}${x.note?" • "+esc(x.note):""}</span></div><div class="amount ${m.cls}">${m.sign} ${money(x.amount)}</div><div class="row-actions"><button class="edit-btn" onclick="editTransaction('${x.id}')">Edit</button><button class="delete-btn" onclick="deleteTransaction('${x.id}')">Hapus</button></div></div>` }).join(""):`<div class="empty">Belum ada transaksi pada periode ini.</div>`;
+    }
+
+    function renderClosings(){
+      const sorted=[...state.closings].sort((a,b)=>String(b.period).localeCompare(String(a.period)));
+      $("closingList").innerHTML=sorted.length?sorted.map(r=>`<div class="closing-item"><div class="closing-head"><strong>${periodLabel(r.period)}</strong><span>${r.closedAt?new Date(r.closedAt).toLocaleDateString("id-ID"):"Arsip"}</span></div><div class="summary-grid two"><div class="mini green"><div class="mini-label">Laba Bersih</div><div class="mini-value green">${money(r.profit)}</div></div><div class="mini amber"><div class="mini-label">Modal Berikutnya</div><div class="mini-value amber">${money(r.nextCapital)}</div></div><div class="mini green"><div class="mini-label">Owner</div><div class="mini-value green">${money(r.ownerShare)}</div></div><div class="mini purple"><div class="mini-label">Pengelola</div><div class="mini-value purple">${money(r.managerShare)}</div></div></div><div class="closing-actions"><button class="btn-soft" onclick="applyNextCapital('${r.id}')">Jadikan Modal ${periodLabel(nextPeriod(r.period))}</button><button class="btn-danger" onclick="deleteClosing('${r.id}')">Hapus Arsip</button></div></div>`).join(""):`<div class="empty">Belum ada laporan tutup bulan.</div>`;
+    }
+
+    function openTransaction(type="income"){
+      $("transactionForm").reset(); $("editId").value=""; $("txType").value=type; $("txDate").value=selectedPeriod+"-01";
+      $("transactionTitle").textContent="Tambah Transaksi"; $("saveTxButton").textContent="Simpan Transaksi"; $("transactionModal").classList.add("show");
+    }
+    function editTransaction(id){
+      const tx=state.transactions.find(t=>t.id===id); if(!tx) return;
+      $("editId").value=tx.id; $("txType").value=tx.type; $("txDate").value=tx.date; $("txCategory").value=tx.category; $("txAmount").value=tx.amount; $("txNote").value=tx.note||"";
+      $("transactionTitle").textContent="Revisi Transaksi"; $("saveTxButton").textContent="Simpan Revisi"; $("transactionModal").classList.add("show");
+    }
+    function closeTransaction(){ $("transactionModal").classList.remove("show"); }
+    $("transactionForm").addEventListener("submit", e=>{
+      e.preventDefault();
+      const id=$("editId").value; const tx={ id:id||String(Date.now())+Math.random().toString(16).slice(2), type:$("txType").value, date:$("txDate").value, category:$("txCategory").value.trim(), amount:Number($("txAmount").value), note:$("txNote").value.trim() };
+      if(!tx.date||!tx.category||!tx.amount||tx.amount<1){ setStatus("Data belum valid"); return; }
+      const txPeriod=periodOf(tx.date);
+      if(tx.type==="initial-expense"){ const base=calcPeriodExcluding(id, txPeriod); const cap=capital(txPeriod); if(tx.amount>Number(cap.amount||0)-base.initialExpense){ setStatus("Sisa kas awal tidak cukup"); return; } }
+      if(id){ const idx=state.transactions.findIndex(t=>t.id===id); if(idx>=0) state.transactions[idx]=tx; selectedPeriod=txPeriod; setStatus("Revisi disimpan"); }
+      else { state.transactions.push(tx); selectedPeriod=txPeriod; setStatus("Transaksi disimpan"); }
+      save(); closeTransaction(); render();
+    });
+
+    function deleteTransaction(id){ if(!confirm("Hapus transaksi ini?"))return; state.transactions=state.transactions.filter(t=>t.id!==id); save(); render(); setStatus("Transaksi dihapus"); }
+    document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{activeFilter=b.dataset.filter;renderTransactions();}));
+    $("periodInput").addEventListener("change",()=>{selectedPeriod=$("periodInput").value||periodNow();render();});
+
+    $("capitalForm").addEventListener("submit",e=>{
+      e.preventDefault(); const amount=Number($("capitalAmount").value);
+      if(!Number.isFinite(amount)||amount<0){setStatus("Modal tidak valid");return}
+      const initial=calcPeriod().initialExpense; if(amount<initial){setStatus("Modal lebih kecil dari pengeluaran kas awal");return}
+      state.capitals[selectedPeriod]={amount,date:$("capitalDate").value||selectedPeriod+"-01",note:$("capitalNote").value.trim()};
+      save(); render(); setStatus("Modal periode disimpan");
+    });
+
+    function syncSettingsInputs(prefix=""){
+      $(prefix+"ownerPercent").value=state.settings.ownerPercent; $(prefix+"managerPercent").value=state.settings.managerPercent; $(prefix+"savingPercent").value=state.settings.savingPercent; $(prefix+"savingFixed").value=state.settings.savingFixed||"";
+    }
+    function readSettings(prefix=""){
+      const owner=Number($(prefix+"ownerPercent").value)||0, manager=Number($(prefix+"managerPercent").value)||0, savingPercent=Number($(prefix+"savingPercent").value)||0, savingFixed=Number($(prefix+"savingFixed").value)||0;
+      if(Math.round((owner+manager)*100)/100!==100){setStatus("Owner + pengelola harus 100%");return false}
+      if(savingPercent<0||savingPercent>100||savingFixed<0){setStatus("Saving tidak valid");return false}
+      state.settings={ownerPercent:owner,managerPercent:manager,savingPercent,savingFixed}; save(); render(); setStatus("Pengaturan disimpan"); return true;
+    }
+    $("settingsForm").addEventListener("submit",e=>{e.preventDefault();readSettings("");});
+    function openSettings(){ syncSettingsInputs(""); $("ownerPercentModal").value=state.settings.ownerPercent; $("managerPercentModal").value=state.settings.managerPercent; $("savingPercentModal").value=state.settings.savingPercent; $("savingFixedModal").value=state.settings.savingFixed||""; $("settingsModal").classList.add("show"); }
+    function closeSettings(){ $("settingsModal").classList.remove("show"); }
+    $("settingsModalForm").addEventListener("submit",e=>{e.preventDefault(); const owner=Number($("ownerPercentModal").value)||0, manager=Number($("managerPercentModal").value)||0, savingPercent=Number($("savingPercentModal").value)||0, savingFixed=Number($("savingFixedModal").value)||0; if(Math.round((owner+manager)*100)/100!==100){setStatus("Owner + pengelola harus 100%");return} state.settings={ownerPercent:owner,managerPercent:manager,savingPercent,savingFixed}; save(); render(); closeSettings(); setStatus("Pengaturan disimpan");});
+
+    function saveClosing(){
+      const t=calcPeriod(); const id="closing-"+selectedPeriod;
+      const record={id,period:selectedPeriod,closedAt:new Date().toISOString(),capital:t.capital,income:t.income,initialExpense:t.initialExpense,operationalExpense:t.operationalExpense,totalCost:t.totalCost,profit:t.profit,endingCash:t.endingCash,nextCapital:t.saving,shareable:t.shareable,ownerPercent:state.settings.ownerPercent,managerPercent:state.settings.managerPercent,ownerShare:t.ownerShare,managerShare:t.managerShare};
+      const idx=state.closings.findIndex(r=>r.period===selectedPeriod); if(idx>=0) state.closings[idx]=record; else state.closings.push(record);
+      save(); render(); setStatus("Tutup bulan disimpan");
+    }
+    function applyNextCapital(id){
+      const r=state.closings.find(x=>x.id===id); if(!r)return; const np=nextPeriod(r.period);
+      if(!confirm("Jadikan "+money(r.nextCapital)+" sebagai modal awal "+periodLabel(np)+"?"))return;
+      state.capitals[np]={amount:r.nextCapital,date:np+"-01",note:"Saving modal dari tutup bulan "+periodLabel(r.period)};
+      selectedPeriod=np; save(); render(); window.scrollTo({top:0,behavior:"smooth"}); setStatus("Modal berikutnya diterapkan");
+    }
+    function deleteClosing(id){ if(!confirm("Hapus arsip tutup bulan ini?"))return; state.closings=state.closings.filter(r=>r.id!==id); save(); render(); setStatus("Arsip dihapus"); }
+
+    function backupObject(){return{app:"KasKita",version:5,exportedAt:new Date().toISOString(),data:state}}
+    function openDataModal(mode){ const backup=mode==="backup"; $("dataTitle").textContent=backup?"Backup Data":"Impor Data"; $("backupPanel").style.display=backup?"block":"none"; $("importPanel").style.display=backup?"none":"block"; if(backup)$("backupText").value=JSON.stringify(backupObject(),null,2); else $("importText").value=""; $("dataModal").classList.add("show"); }
+    function closeDataModal(){ $("dataModal").classList.remove("show"); }
+    function selectBackup(){ const a=$("backupText"); a.focus(); a.select(); a.setSelectionRange(0,a.value.length); setStatus("Teks terseleksi"); }
+    async function copyBackup(){ try{ await navigator.clipboard.writeText($("backupText").value); setStatus("Backup disalin"); }catch(e){selectBackup();} }
+    async function shareBackup(){ try{ if(navigator.share){await navigator.share({title:"Backup KasKita",text:$("backupText").value});setStatus("Backup dibagikan")} else copyBackup(); }catch(e){} }
+    function downloadBackup(){ const blob=new Blob([$("backupText").value],{type:"text/plain;charset=utf-8"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="backup-kaskita.txt"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); setStatus("TXT dibuat"); }
+    function extractJSON(s){ s=String(s||"").replace(/[\\u200B-\\u200D\\uFEFF]/g,"").trim(); const first=s.indexOf("{"),last=s.lastIndexOf("}"); return first>=0&&last>first?s.slice(first,last+1):s; }
+    function importFromText(){ try{ if(!confirm("Impor akan mengganti semua data di perangkat ini. Lanjutkan?"))return; const obj=JSON.parse(extractJSON($("importText").value)); const d=obj.data||obj; if(!d||!Array.isArray(d.transactions))throw new Error("format"); state={settings:d.settings||clone(SEED.settings),capitals:d.capitals||{},transactions:d.transactions||[],closings:d.closings||[]}; save(); closeDataModal(); render(); setStatus("Data diimpor"); }catch(e){setStatus("Backup tidak valid");} }
+    async function pasteImport(){ try{$("importText").value=await navigator.clipboard.readText();setStatus("Teks ditempel")}catch(e){$("importText").focus();setStatus("Tempel manual")} }
+    $("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{$("importText").value=String(r.result||"")}; r.readAsText(f);});
+    function showCSV(){ const rows=[["Tanggal","Jenis","Kategori","Jumlah","Keterangan"],...state.transactions.map(x=>[x.date,meta(x.type).label,x.category,x.amount,x.note||""])]; $("dataTitle").textContent="CSV Teks"; $("backupPanel").style.display="block"; $("importPanel").style.display="none"; $("backupText").value=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(",")).join("\\n"); $("dataModal").classList.add("show"); }
+    function resetSeed(){ if(!confirm("Reset ke data awal Fitgo and Coffee?"))return; state=clone(SEED); selectedPeriod="2026-05"; save(); render(); setStatus("Data direset"); }
+
+    document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show")}));
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeTransaction();closeSettings();closeDataModal();}});
+
+    load(); selectedPeriod=state.capitals["2026-05"]?"2026-05":Object.keys(state.capitals)[0]||periodNow(); render();
+  </script>
+</body>
+</html>
